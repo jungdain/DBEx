@@ -58,10 +58,15 @@ public class MainActivity extends AppCompatActivity {
                 Cursor cursor=sqlDb.rawQuery(sql, null);
                 String names="Idol 이름"+"\r\n"+"============"+"\r\n";
                 String counts="Idol 인원수"+"\r\n"+"============"+"\r\n";
-
                 while(cursor.moveToNext()){
-
+                    names += cursor.getString(0)+"\r\n";
+                    counts += cursor.getInt(1)+"\r\n";
                 }
+                editResultName.setText(names);
+                editResultCount.setText(counts);
+                cursor.close();
+                sqlDb.close();
+
             }
         });
     }
