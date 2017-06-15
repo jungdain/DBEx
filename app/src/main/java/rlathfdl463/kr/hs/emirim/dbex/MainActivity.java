@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     EditText editName, editCount, editResultName, editResultCount;
-    Button butInit, butInsert, butSelect;
+    Button butInit, butInsert, butSelect, butUpdate, butDelete;
     MyDBHelper myHelper;
     SQLiteDatabase sqlDb;
 
@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
         butInit=(Button)findViewById(R.id.but_init);
         butInsert=(Button)findViewById(R.id.but_insert);
         butSelect=(Button)findViewById(R.id.but_select);
+        butUpdate=(Button)findViewById(R.id.but_update);
+        butUpdate=(Button)findViewById(R.id.but_delete);
+
 
         //DB 생성
         myHelper=new MyDBHelper(this);
@@ -67,6 +70,26 @@ public class MainActivity extends AppCompatActivity {
                 cursor.close();
                 sqlDb.close();
 
+            }
+        });
+        butUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sqlDb=myHelper.getWritableDatabase();
+                String sql="update idolTable set idolCount"+editCount.getText()+" where idolName='"+editName.getText()+"'";
+                sqlDb.execSQL(sql);
+                sqlDb.close();
+                Toast.makeText(MainActivity.this, "인원수가 수정됨", Toast.LENGTH_LONG).show();
+            }
+        });
+        butDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sqlDb=myHelper.getWritableDatabase();
+                String sql="delete from idolTable where idolCount='"+editCount.getText()+editName.getText()+"'";
+                sqlDb.execSQL(sql);
+                sqlDb.close();
+                Toast.makeText(MainActivity.this, "삭제되었음", Toast.LENGTH_LONG).show();
             }
         });
     }
